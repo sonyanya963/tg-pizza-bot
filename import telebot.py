@@ -47,7 +47,7 @@ def hawaian(call):
     keyboard.add(button_order, button_back_menu)
     mybot.edit_message_text(text = text7, chat_id = call.message.chat.id, reply_markup = keyboard,message_id= call.message.message_id)
 
-@mybot.callback_query_handlers(func = lambda call: call.data.startswith("order_"))
+@mybot.callback_query_handler(func = lambda call: call.data.startswith("order_"))
 def ordering(call):
     pizza_type = call.data[6:]
     if pizza_type == "pizza1":
@@ -65,29 +65,33 @@ def ordering(call):
     keyboard.add(button_s1, button_s2, button_s3)
     mybot.edit_message_text(text=text8, chat_id = call.message.chat.id, reply_markup = keyboard,message_id= call.message.message_id)
 
-    
-    
+@mybot.callback_query_handler(func = lambda call:call.data == "small_pizza")
 
 
     
-
-@mybot.callback_query_handlers(func = lambda call: call.data == "backmenu")
-def ordering(call):
-    pass
+    
 
 
-@mybot.message_handler(["markup"])
-def mark_up_keyboard(message):
-    text4 = "Нажмите для подписки:" 
-    keyboard = types.InlineKeyboardMarkup()
-    button_markup = types.InlineKeyboardButton(text = "Подписаться", callback_data= "mark_up")
-    keyboard.add(button_markup)
-    mybot.send_message(text = text4, chat_id = message.chat.id, reply_markup= keyboard)
+    
 
-@mybot.callback_query_handler(func = lambda call: call.data == "mark_up")
-def mark_up_ans(call):
-    text5 = "Вы подписались на обновления."
-    mybot.edit_message_text(text= text5, chat_id = call.message.chat.id, message_id= call.message.message_id)
+@mybot.callback_query_handler(func = lambda call: call.data == "backmenu")
+def backmenu(call):
+    menu(call.message)
+    mybot.delete_message(call.message.chat.id, call.message.message_id)
+
+
+# @mybot.message_handler(["markup"])
+# def mark_up_keyboard(message):
+#     text4 = "Нажмите для подписки:" 
+#     keyboard = types.InlineKeyboardMarkup()
+#     button_markup = types.InlineKeyboardButton(text = "Подписаться", callback_data= "mark_up")
+#     keyboard.add(button_markup)
+#     mybot.send_message(text = text4, chat_id = message.chat.id, reply_markup= keyboard)
+
+# @mybot.callback_query_handler(func = lambda call: call.data == "mark_up")
+# def mark_up_ans(call):
+#     text5 = "Вы подписались на обновления."
+#     mybot.edit_message_text(text= text5, chat_id = call.message.chat.id, message_id= call.message.message_id)
 
 
 
