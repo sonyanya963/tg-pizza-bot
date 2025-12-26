@@ -1,4 +1,5 @@
 import telebot
+#вот изменение
 from telebot import types
 token = "8047220972:AAHyKszlmpuxwUq1bBkvH27RhW4FHyEd4bo"
 mybot = telebot.TeleBot(token)
