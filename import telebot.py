@@ -60,9 +60,7 @@ def ordering(call):
         pt = "Гавайскую"
     text8 = f"""Вы выбрали {pt}.
       Теперь выберете размер:"""
-    print(call.from_user.id)
-    # order = user_orders[call.from_user.id]
-    # order["pizza"] = pt
+    user_orders[call.from_user.id] = {"pizza": pt}
     keyboard = types.InlineKeyboardMarkup()
     button_s1 = types.InlineKeyboardButton(text = "Маленькая", callback_data= "small_pizza")
     button_s2 = types.InlineKeyboardButton(text = "Cредняя", callback_data= "mid_pizza")
@@ -73,17 +71,21 @@ def ordering(call):
 @mybot.callback_query_handler(func = lambda call:call.data == "small_pizza")
 def small_pizza_ord(call):
     text_ordering = "Введите ваш адрес доставки"
-    # order = user_orders[call.from_user.id]
-    # order["size"] = "маленькая"
-    # print(order)
+    user_orders[call.from_user.id]["size"] = "маленькая"
     mybot.send_message(text = text_ordering, chat_id = call.message.chat.id)
 
 @mybot.message_handler(func = lambda message: True)
 def echo_all(message):
     user_adress = message.text
-    mybot.send_message(text = f"Ваш заказ потвержден. Адрес заказа: {user_adress}", chat_id = message.chat.id)
+    user_orders[message.from_user.id]["adress"] = user_adress
+    order = user_orders[message.from_user.id]
+    print(user_orders)
+    mybot.send_message(text = f"""Ваш заказ потвержден. 
+Ваш заказ:
+Пицца: {order["pizza"]}
+Размер: {order["size"]}
+Адрес: {order["adress"]}""", chat_id = message.chat.id)
 
-    
 
 @mybot.callback_query_handler(func = lambda call: call.data == "backmenu")
 def backmenu(call):
