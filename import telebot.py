@@ -77,6 +77,12 @@ def small_pizza_ord(call):
     # order["size"] = "маленькая"
     # print(order)
     mybot.send_message(text = text_ordering, chat_id = call.message.chat.id)
+
+@mybot.message_handler(func = lambda message: True)
+def echo_all(message):
+    user_adress = message.text
+    mybot.send_message(text = f"Ваш заказ потвержден. Адрес заказа: {user_adress}", chat_id = message.chat.id)
+
     
 
 @mybot.callback_query_handler(func = lambda call: call.data == "backmenu")
