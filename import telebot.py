@@ -2,6 +2,9 @@ import telebot
 from telebot import types
 token = "8047220972:AAHyKszlmpuxwUq1bBkvH27RhW4FHyEd4bo"
 mybot = telebot.TeleBot(token)
+
+user_orders = {}
+
 @mybot.message_handler(["start"])
 def start(message):
     text1 = """Добро пожаловать, это бот для заказа пиццы.
@@ -57,6 +60,9 @@ def ordering(call):
         pt = "Гавайскую"
     text8 = f"""Вы выбрали {pt}.
       Теперь выберете размер:"""
+    print(call.from_user.id)
+    # order = user_orders[call.from_user.id]
+    # order["pizza"] = pt
     keyboard = types.InlineKeyboardMarkup()
     button_s1 = types.InlineKeyboardButton(text = "Маленькая", callback_data= "small_pizza")
     button_s2 = types.InlineKeyboardButton(text = "Cредняя", callback_data= "mid_pizza")
@@ -67,8 +73,10 @@ def ordering(call):
 @mybot.callback_query_handler(func = lambda call:call.data == "small_pizza")
 def small_pizza_ord(call):
     text_ordering = "Введите ваш адрес доставки"
-    mybot.send_message(text = text_ordering, chat = call.message.chat.id)
-    
+    # order = user_orders[call.from_user.id]
+    # order["size"] = "маленькая"
+    # print(order)
+    mybot.send_message(text = text_ordering, chat_id = call.message.chat.id)
     
 
 @mybot.callback_query_handler(func = lambda call: call.data == "backmenu")
